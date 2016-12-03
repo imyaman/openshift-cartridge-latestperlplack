@@ -79,4 +79,4 @@ Endpoints:
       health: true
 Compatible-Versions: []
 Cartridge-Version: 1.0.0
-Source-Url: http://github.com/imyaman/openshift-cartridge-latestperlplack.git
+Source-Url: https://github.com/imyaman/openshift-cartridge-latestperlplack/archive/master.zip
