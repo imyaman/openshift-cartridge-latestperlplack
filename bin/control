@@ -4,17 +4,6 @@ source $OPENSHIFT_CARTRIDGE_SDK_BASH
 #source "$OPENSHIFT_PLACK_DIR/bin/mysdk"
 source ~/latestperlplack/bin/mysdk
 
-LIB_DIR="${OPENSHIFT_PLACK_DIR}/local"
-export PERL_CPANM_OPT="--quiet --notest -l $LIB_DIR"
-export PATH="$LIB_DIR/bin:$PATH"
-
-daemon_control() {
-    local command="$1"
-    #"${OPENSHIFT_PLACK_DIR}/bin/daemon_control" "$command"
-    ~/latestperlplack/bin/daemon_control "$command"
-    exit $?
-}
-
 tidy_directory() {
     local dir="$1"
     if [ "x$dir" != "x" -a -d "$dir" ]; then
@@ -33,19 +22,34 @@ tidy() {
 
 build() {
     echo "-----> Installing dependency"
-    cd "${OPENSHIFT_REPO_DIR}"
-    if ! (cpanm --installdeps .); then
-        exit 1
-    fi
-    echo "-----> Testing"
-    if ! prove; then
-        exit 1
-    fi
+      PERL_MM_USE_DEFAULT=1 ~/app-root/data/perl/bin/perl -MCPAN -e 'install Plack Dancer2'
+#    cd "${OPENSHIFT_REPO_DIR}"
+#    if ! (cpanm --installdeps .); then
+#        exit 1
+#    fi
+#    echo "-----> Testing"
+#    if ! prove; then
+#        exit 1
+#    fi
     echo "-----> Done"
 }
 
 case "$1" in
-    start|stop|restart|status|reload) daemon_control "$1" ;;
+    start) 
+      system("~/app-root/data/perl/bin/plackup", "$ENV{OPENSHIFT_REPO_DIR}/app.psgi", "--port", "$ENV{OPENSHIFT_PLACK_PORT}", "--host", "$ENV{OPENSHIFT_PLACK_IP}");
+    ;;
+
+
+    stop) 
+      if [ -z "$(ps -f -u $USER 2>/dev/null | egrep -e plackup -e starman -e app.pl | egrep -v egrep)" ]
+      then
+        client_result "Application is already stopped"
+      else
+        kill `ps -f -u $USER 2>/dev/null | egrep -e plackup -e "starman master" -e perl | egrep -v egrep | awk '{ print $2 }'` > /dev/null 2>&1
+      fi
+    ;;
+
+    restart|status|reload) ;;
     tidy)    tidy ;;
     build)   build ;;
     *)       exit 0
