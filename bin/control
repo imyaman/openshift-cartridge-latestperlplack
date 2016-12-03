@@ -36,7 +36,7 @@ build() {
 
 case "$1" in
     start) 
-      system("~/app-root/data/perl/bin/plackup", "$ENV{OPENSHIFT_REPO_DIR}/app.psgi", "--port", "$ENV{OPENSHIFT_PLACK_PORT}", "--host", "$ENV{OPENSHIFT_PLACK_IP}");
+      system("$HOME/app-root/data/perl/bin/perl $HOME/app-root/data/perl/bin/plack", "$ENV{OPENSHIFT_REPO_DIR}/app.psgi", "--port", "$ENV{OPENSHIFT_PLACK_PORT}", "--host", "$ENV{OPENSHIFT_PLACK_IP}");
     ;;
 
 

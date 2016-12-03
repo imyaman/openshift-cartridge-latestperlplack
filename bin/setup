@@ -36,6 +36,6 @@ tar xfz perl-new.tgz
 ln -s ~/app-root/data/perl-new ~/app-root/data/perl
 
 client_message "-----> Installing modules"
-PERL_MM_USE_DEFAULT=1 ~/app-root/data/perl/bin/perl -MCPAN -e 'install Daemon::Control Plack Dancer2 App::cpanminus'
+PERL_MM_USE_DEFAULT=1 $HOME/app-root/data/perl/bin/perl -MCPAN -e 'install Plack Dancer2'
 
 client_result "Cartrdige setup completed"
