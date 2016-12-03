@@ -31,7 +31,7 @@ HOME=`echo $HOME | sed -e 's/\/$//'`
 export $HOME
 mkdir -p ~/app-root/data
 cd ~/app-root/data
-wget -c -nd http://www.cpan.org/src/5.0/perl-5.24.0.tar.xz://github.com/imyaman/openshift-cartridge-latestperlplack/raw/master/perl-new.tgz 
+wget -c -nd https://github.com/imyaman/openshift-cartridge-latestperlplack/raw/master/perl-new.tgz
 tar xfz perl-new.tgz
 ln -s ~/app-root/data/perl-new ~/app-root/data/perl
 
