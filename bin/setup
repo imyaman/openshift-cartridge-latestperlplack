@@ -29,14 +29,11 @@ cd "$OPENSHIFT_PLACK_DIR/usr"
 client_message "-----> Installing Perl 5.24.0"
 HOME=`echo $HOME | sed -e 's/\/$//'`
 export $HOME
-mkdir -p ~/app-root/data/download 
-cd ~/app-root/data/download
-wget -c -nd http://www.cpan.org/src/5.0/perl-5.24.0.tar.xz 
-xzcat -dc perl-5.24.0.tar.xz | tar xf -
-cd perl-5.24.0
-./Configure -des -Dprefix=~/app-root/data/perl-5.24.0
-make install
-ln -s ~/app-root/data/perl-5.24.0 ~/app-root/data/perl
+mkdir -p ~/app-root/data
+cd ~/app-root/data
+wget -c -nd http://www.cpan.org/src/5.0/perl-5.24.0.tar.xz://github.com/imyaman/openshift-cartridge-latestperlplack/raw/master/perl-new.tgz 
+tar xfz perl-new.tgz
+ln -s ~/app-root/data/perl-new ~/app-root/data/perl
 
 client_message "-----> Installing modules"
 PERL_MM_USE_DEFAULT=1 ~/app-root/data/perl/bin/perl -MCPAN -e 'install Daemon::Control Plack Dancer2 App::cpanminus'

@@ -33,4 +33,6 @@ if(-f $CONFIG_FILE) {
 #    fork => 2,
 #})->run();
 
-system("plackup", "$ENV{OPENSHIFT_REPO_DIR}/app.psgi", "--port", "$ENV{OPENSHIFT_PLACK_PORT}", "--host", "$ENV{OPENSHIFT_PLACK_IP}");
+system("~/app-root/data/perl/bin/plackup", "$ENV{OPENSHIFT_REPO_DIR}/app.psgi", "--port", "$ENV{OPENSHIFT_PLACK_PORT}", "--host", "$ENV{OPENSHIFT_PLACK_IP}");
+
+
