@@ -1,0 +1,44 @@
+#!/bin/bash
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+source "$OPENSHIFT_PLACK_DIR/bin/mysdk"
+
+LIB_DIR="$OPENSHIFT_PLACK_DIR/local"
+export PATH="$LIB_DIR/bin:$PATH"
+export PERL_CPANM_OPT="--quiet --notest -l $LIB_DIR"
+
+cd "$OPENSHIFT_PLACK_DIR/usr"
+
+#if ! [ -d "$LIB_DIR" ]; then
+#    mkdir -p "$LIB_DIR"
+#    client_message "-----> Installing cpanm"
+#    if ! (curl --silent https://raw.github.com/miyagawa/cpanminus/master/cpanm | perl - App::cpanminus 2>&1 | pipe_client_message); then
+#        client_error "setup failed"
+#        rm -rf "$LIB_DIR"
+#        exit 1
+#    fi
+#fi
+#
+#client_message "-----> Installing or upgrading modules necessary for PLACK cartridge"
+#if ! (cpanm --installdeps . 2>&1 | pipe_client_message); then
+#    client_error "setup failed"
+#    rm -rf "$LIB_DIR"
+#    exit 1
+#fi
+
+client_message "-----> Installing Perl 5.24.0"
+HOME=`echo $HOME | sed -e 's/\/$//'`
+export $HOME
+mkdir -p ~/app-root/data/download 
+cd ~/app-root/data/download
+wget -c -nd http://www.cpan.org/src/5.0/perl-5.24.0.tar.xz 
+xzcat -dc perl-5.24.0.tar.xz | tar xf -
+cd perl-5.24.0
+./Configure -des -Dprefix=~/app-root/data/perl-5.24.0
+make install
+ln -s ~/app-root/data/perl-5.24.0 ~/app-root/data/perl
+
+client_message "-----> Installing modules"
+PERL_MM_USE_DEFAULT=1 ~/app-root/data/perl/bin/perl -MCPAN -e 'install Daemon::Control Plack Dancer2 App::cpanminus'
+
+client_result "Cartrdige setup completed"

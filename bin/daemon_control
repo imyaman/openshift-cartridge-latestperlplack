@@ -1,0 +1,36 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+print join "\n", @INC;
+
+#use Daemon::Control;
+
+my $CONFIG_FILE = "$ENV{OPENSHIFT_REPO_DIR}/plack_config.pl";
+if(-f $CONFIG_FILE) {
+    local $@;
+    local $!;
+    my $ret = do($CONFIG_FILE);
+    if(!defined($ret)) {
+        if($@) {
+            print "Error while compiling plack_config.pl: $@\n";
+            exit 1;
+        }elsif($!) {
+            print "Error while reading plack_config.pl: $!\n";
+            exit 1;
+        }
+    }
+}
+
+#Daemon::Control->new({
+#    name => $ENV{OPENSHIFT_APP_NAME},
+#    program => "plackup",
+#    program_args => ["$ENV{OPENSHIFT_REPO_DIR}/app.psgi",
+#                     "--port", "$ENV{OPENSHIFT_PLACK_PORT}", "--host", "$ENV{OPENSHIFT_PLACK_IP}"],
+#    ## init_config => "path/to/shell_script/to/set/environment",
+#    pid_file => "$ENV{OPENSHIFT_PLACK_DIR}/run/plackup.pid",
+#    fork => 2,
+#})->run();
+
+system("plackup", "$ENV{OPENSHIFT_REPO_DIR}/app.psgi", "--port", "$ENV{OPENSHIFT_PLACK_PORT}", "--host", "$ENV{OPENSHIFT_PLACK_IP}");

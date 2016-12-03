@@ -1,0 +1,50 @@
+#!/bin/bash
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+source "$OPENSHIFT_PLACK_DIR/bin/mysdk"
+
+LIB_DIR="${OPENSHIFT_PLACK_DIR}/local"
+export PERL_CPANM_OPT="--quiet --notest -l $LIB_DIR"
+export PATH="$LIB_DIR/bin:$PATH"
+
+daemon_control() {
+    local command="$1"
+    "${OPENSHIFT_PLACK_DIR}/bin/daemon_control" "$command"
+    exit $?
+}
+
+tidy_directory() {
+    local dir="$1"
+    if [ "x$dir" != "x" -a -d "$dir" ]; then
+        client_message "-----> Clean up under $dir"
+        rm -vfr "$opt" "$dir"/* 2>&1 | pipe_client_message
+    fi
+}
+
+tidy() {
+    shopt -s dotglob
+    client_message "-----> Start tidying up"
+    tidy_directory "$OPENSHIFT_PLACK_LOG_DIR"
+    tidy_directory "$PERL_CPANM_HOME"
+    client_message "-----> Done"
+}
+
+build() {
+    echo "-----> Installing dependency"
+    cd "${OPENSHIFT_REPO_DIR}"
+    if ! (cpanm --installdeps .); then
+        exit 1
+    fi
+    echo "-----> Testing"
+    if ! prove; then
+        exit 1
+    fi
+    echo "-----> Done"
+}
+
+case "$1" in
+    start|stop|restart|status|reload) daemon_control "$1" ;;
+    tidy)    tidy ;;
+    build)   build ;;
+    *)       exit 0
+esac
