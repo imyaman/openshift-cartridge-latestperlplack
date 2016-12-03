@@ -2,7 +2,7 @@
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 #source "$OPENSHIFT_PLACK_DIR/bin/mysdk"
-#source ~/bin/mysdk
+source ~/latestperlplack/bin/mysdk
 
 LIB_DIR="${OPENSHIFT_PLACK_DIR}/local"
 export PERL_CPANM_OPT="--quiet --notest -l $LIB_DIR"
@@ -11,7 +11,7 @@ export PATH="$LIB_DIR/bin:$PATH"
 daemon_control() {
     local command="$1"
     #"${OPENSHIFT_PLACK_DIR}/bin/daemon_control" "$command"
-    ~/bin/daemon_control "$command"
+    ~/latestperlplack/bin/daemon_control "$command"
     exit $?
 }
 
