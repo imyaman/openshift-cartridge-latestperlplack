@@ -1,12 +1,12 @@
-Name: plack
-Cartridge-Short-Name: PLACK
-Display-Name: Plack (Perl 5.10)
-Description: Perl application cartridge based on Plack/PSGI
-Version: '5.10'
+Name: latestperlplack
+Cartridge-Short-Name: LATESTPERLPLACK
+Display-Name: Perl 5.24.0 and Plack 1.0042
+Description: Latest Perl and PSGI/Plack application cartridge
+Version: '1.0042'
 License: GPL v2
 License-Url: https://metacpan.org/pod/Plack
 Vendor: Tatsuhiko Miyagawa
-Cartridge-Vendor: debug_ito
+Cartridge-Vendor: imyaman
 Categories:
 - service
 - perl
@@ -46,8 +46,8 @@ Cart-Data:
   Type: environment
   Description: Unique ID which identified the gear. This value changes between gears.
 Provides:
-- perl-5.10
-- perl
+- perl-5.24.0
+- plack-1.0042
 Publishes:
   publish-http-url:
     Type: NET_TCP:httpd-proxy-info
@@ -78,5 +78,5 @@ Endpoints:
     Options:
       health: true
 Compatible-Versions: []
-Cartridge-Version: 0.1.1
-Source-Url: http://github.com/imyaman/openshift-cartridge-plack.git
+Cartridge-Version: 1.0.0
+Source-Url: http://github.com/imyaman/openshift-cartridge-latestperlplack.git
