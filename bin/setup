@@ -29,13 +29,11 @@ cd "$OPENSHIFT_PLACK_DIR/usr"
 client_message "-----> Installing Perl 5.24.0"
 HOME=`echo $HOME | sed -e 's/\/$//'`
 export $HOME
-mkdir -p ~/app-root/data
-cd ~/app-root/data
+cd $OPENSHIFT_DATA_DIR
 wget -c -nd https://github.com/imyaman/openshift-cartridge-latestperlplack/raw/master/perl-new.tgz
 tar xfz perl-new.tgz
-ln -s ~/app-root/data/perl-new ~/app-root/data/perl
 
 client_message "-----> Installing modules"
-PERL_MM_USE_DEFAULT=1 $HOME/app-root/data/perl/bin/perl -MCPAN -e 'install Plack Dancer2'
+PERL5LIB=$OPENSHIFT_DATA_DIR/perl-new PERL_MM_USE_DEFAULT=1 $HOME/app-root/data/perl/bin/perl -MCPAN -e 'install Plack Dancer2'
 
 client_result "Cartrdige setup completed"

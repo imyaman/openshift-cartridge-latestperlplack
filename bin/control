@@ -2,7 +2,7 @@
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 #source "$OPENSHIFT_PLACK_DIR/bin/mysdk"
-source ~/latestperlplack/bin/mysdk
+#source ~/latestperlplack/bin/mysdk
 
 tidy_directory() {
     local dir="$1"
@@ -22,7 +22,7 @@ tidy() {
 
 build() {
     echo "-----> Installing dependency"
-      PERL_MM_USE_DEFAULT=1 ~/app-root/data/perl/bin/perl -MCPAN -e 'install Plack Dancer2'
+      PERL_MM_USE_DEFAULT=1 $OPENSHIFT_DATA_DIR/perl-new/bin/perl -MCPAN -e 'install Plack Dancer2'
 #    cd "${OPENSHIFT_REPO_DIR}"
 #    if ! (cpanm --installdeps .); then
 #        exit 1
@@ -36,7 +36,7 @@ build() {
 
 case "$1" in
     start) 
-      ~/app-root/data/perl/bin/perl ~/app-root/data/perl/bin/plack $OPENSHIFT_REPO_DIR/app.psgi --port $OPENSHIFT_PLACK_PORT --host $OPENSHIFT_PLACK_IP
+      PERL5LIB=$OPENSHIFT_DATA_DIR/perl-new $OPENSHIFT_DATA_DIR/perl-new/bin/perl $OPENSHIFT_DATA_DIR/perl-new/bin/plackup $OPENSHIFT_REPO_DIR/app.psgi --port $OPENSHIFT_PLACK_PORT --host $OPENSHIFT_PLACK_IP
     ;;
 
 
