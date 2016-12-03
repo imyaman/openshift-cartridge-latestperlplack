@@ -34,6 +34,6 @@ wget -c -nd https://github.com/imyaman/openshift-cartridge-latestperlplack/raw/m
 tar xfz perl-new.tgz
 
 client_message "-----> Installing modules"
-PERL5LIB=$OPENSHIFT_DATA_DIR/perl-new PERL_MM_USE_DEFAULT=1 $HOME/app-root/data/perl/bin/perl -MCPAN -e 'install Plack Dancer2'
+PERL5LIB=$OPENSHIFT_DATA_DIR/perl-new/lib PERL_MM_USE_DEFAULT=1 $HOME/app-root/data/perl/bin/perl -MCPAN -e 'install Plack Dancer2'
 
 client_result "Cartrdige setup completed"

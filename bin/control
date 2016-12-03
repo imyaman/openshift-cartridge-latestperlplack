@@ -36,7 +36,7 @@ build() {
 
 case "$1" in
     start) 
-      PERL5LIB=$OPENSHIFT_DATA_DIR/perl-new $OPENSHIFT_DATA_DIR/perl-new/bin/perl $OPENSHIFT_DATA_DIR/perl-new/bin/plackup $OPENSHIFT_REPO_DIR/app.psgi --port $OPENSHIFT_PLACK_PORT --host $OPENSHIFT_PLACK_IP
+      PERL5LIB=$OPENSHIFT_DATA_DIR/perl-new/lib $OPENSHIFT_DATA_DIR/perl-new/bin/perl $OPENSHIFT_DATA_DIR/perl-new/bin/plackup $OPENSHIFT_REPO_DIR/app.psgi --port $OPENSHIFT_PLACK_PORT --host $OPENSHIFT_PLACK_IP
     ;;
 
 
